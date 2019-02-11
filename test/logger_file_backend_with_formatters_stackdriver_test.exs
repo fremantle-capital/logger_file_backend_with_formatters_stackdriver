@@ -31,12 +31,12 @@ defmodule LoggerFileBackendWithFormattersStackdriverTest do
 
     {jsonl_1, jsonl_2} = log_lines()
 
-    assert jsonl_1 |> Map.fetch!("log") == "hello"
+    assert jsonl_1 |> Map.fetch!("message") == "hello"
     assert jsonl_1 |> Map.fetch!("severity") == "DEBUG"
     assert jsonl_1 |> Map.fetch!("time") != nil
     assert jsonl_1 |> Map.fetch!("logging.googleapis.com/sourceLocation") != nil
 
-    assert jsonl_2 |> Map.fetch!("log") == "world"
+    assert jsonl_2 |> Map.fetch!("message") == "world"
     assert jsonl_2 |> Map.fetch!("severity") == "INFO"
     assert jsonl_2 |> Map.fetch!("time") != nil
     assert jsonl_2 |> Map.fetch!("logging.googleapis.com/sourceLocation") != nil
@@ -53,11 +53,11 @@ defmodule LoggerFileBackendWithFormattersStackdriverTest do
 
     {jsonl_1, jsonl_2} = log_lines()
 
-    assert jsonl_1 |> Map.fetch!("log") == "hello"
+    assert jsonl_1 |> Map.fetch!("message") == "hello"
     assert jsonl_1 |> Map.get("user_id") == nil
     assert jsonl_1 |> Map.get("auth") == nil
 
-    assert jsonl_2 |> Map.fetch!("log") == "world"
+    assert jsonl_2 |> Map.fetch!("message") == "world"
     assert jsonl_2 |> Map.fetch!("user_id") == 13
     assert jsonl_2 |> Map.fetch!("auth") == true
   end

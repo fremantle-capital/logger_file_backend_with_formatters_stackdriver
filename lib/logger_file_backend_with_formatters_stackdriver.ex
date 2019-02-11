@@ -31,7 +31,7 @@ defmodule LoggerFileBackendWithFormattersStackdriver do
         %{
           time: format_timestamp(ts),
           severity: unquote(gcp_level),
-          log: IO.iodata_to_binary(msg)
+          message: IO.iodata_to_binary(msg)
         },
         format_metadata(md, state)
       )
@@ -44,7 +44,7 @@ defmodule LoggerFileBackendWithFormattersStackdriver do
       %{
         time: format_timestamp(ts),
         severity: "DEFAULT",
-        log: IO.iodata_to_binary(msg)
+        message: IO.iodata_to_binary(msg)
       },
       format_metadata(md, state)
     )
