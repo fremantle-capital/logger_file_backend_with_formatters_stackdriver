@@ -1,0 +1,4 @@
+%{
+  "jason": {:hex, :jason, "1.1.2", "b03dedea67a99223a2eaf9f1264ce37154564de899fd3d8b9a21b1a6fd64afe7", [:mix], [{:decimal, "~> 1.0", [hex: :decimal, repo: "hexpm", optional: true]}], "hexpm"},
+  "logger_file_backend_with_formatters": {:hex, :logger_file_backend_with_formatters, "0.0.1", "4a7b25c086981c09f8d14846869f992029686ae65a32aefc18712a822582f822", [:mix], [], "hexpm"},
+}
