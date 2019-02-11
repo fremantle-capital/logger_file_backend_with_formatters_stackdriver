@@ -4,7 +4,7 @@ defmodule LoggerFileBackendWithFormattersStackdriver.MixProject do
   def project do
     [
       app: :logger_file_backend_with_formatters_stackdriver,
-      version: "0.0.1",
+      version: "0.0.2",
       elixir: "~> 1.0",
       start_permanent: Mix.env() == :prod,
       description: description(),
