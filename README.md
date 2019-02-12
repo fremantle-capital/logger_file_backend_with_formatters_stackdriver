@@ -10,7 +10,7 @@ by adding `logger_file_backend_with_formatters_stackdriver` to your list of depe
 ```elixir
 def deps do
   [
-    {:logger_file_backend_with_formatters_stackdriver, "~> 0.0.2"}
+    {:logger_file_backend_with_formatters_stackdriver, "~> 0.0.3"}
   ]
 end
 ```
