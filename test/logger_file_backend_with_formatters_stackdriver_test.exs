@@ -33,12 +33,12 @@ defmodule LoggerFileBackendWithFormattersStackdriverTest do
 
     assert jsonl_1 |> Map.fetch!("message") == "hello"
     assert jsonl_1 |> Map.fetch!("severity") == "DEBUG"
-    assert jsonl_1 |> Map.fetch!("time") != nil
+    assert jsonl_1 |> Map.fetch!("timestamp") != nil
     assert jsonl_1 |> Map.fetch!("logging.googleapis.com/sourceLocation") != nil
 
     assert jsonl_2 |> Map.fetch!("message") == "world"
     assert jsonl_2 |> Map.fetch!("severity") == "INFO"
-    assert jsonl_2 |> Map.fetch!("time") != nil
+    assert jsonl_2 |> Map.fetch!("timestamp") != nil
     assert jsonl_2 |> Map.fetch!("logging.googleapis.com/sourceLocation") != nil
   end
 

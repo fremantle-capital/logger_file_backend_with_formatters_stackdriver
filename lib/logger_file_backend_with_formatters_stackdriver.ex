@@ -29,7 +29,7 @@ defmodule LoggerFileBackendWithFormattersStackdriver do
         ) do
       Map.merge(
         %{
-          time: format_timestamp(ts),
+          timestamp: format_timestamp(ts),
           severity: unquote(gcp_level),
           message: IO.iodata_to_binary(msg)
         },
@@ -42,7 +42,7 @@ defmodule LoggerFileBackendWithFormattersStackdriver do
   def format_event(_level, msg, ts, md, %LoggerFileBackendWithFormatters.State{} = state) do
     Map.merge(
       %{
-        time: format_timestamp(ts),
+        timestamp: format_timestamp(ts),
         severity: "DEFAULT",
         message: IO.iodata_to_binary(msg)
       },
@@ -113,12 +113,21 @@ defmodule LoggerFileBackendWithFormattersStackdriver do
     Exception.format(:error, exception, stacktrace)
   end
 
-  # RFC3339 UTC "Zulu" format
-  defp format_timestamp({date, time}) do
-    [format_date(date), format_time(time)]
-    |> Enum.map(&IO.iodata_to_binary/1)
-    |> Enum.join("T")
-    |> Kernel.<>("Z")
+  # https://cloud.google.com/logging/docs/agent/configuration#timestamp-processing
+  defp format_timestamp({date, {h, m, s, ms}}) do
+    duration = Time.from_erl!({h, m, s}) |> Timex.Duration.from_time()
+
+    unix_sec =
+      date
+      |> Date.from_erl!()
+      |> Timex.to_datetime()
+      |> Timex.add(duration)
+      |> Timex.to_unix()
+
+    %{
+      seconds: unix_sec,
+      nanos: ms * 1_000 * 1_000
+    }
   end
 
   # Description can be found in Google Cloud Logger docs;
@@ -139,19 +148,4 @@ defmodule LoggerFileBackendWithFormattersStackdriver do
   defp format_function(nil, function), do: function
   defp format_function(module, function), do: "#{module}.#{function}"
   defp format_function(module, function, arity), do: "#{module}.#{function}/#{arity}"
-
-  defp format_time({hh, mi, ss, ms}) do
-    [pad2(hh), ?:, pad2(mi), ?:, pad2(ss), ?., pad3(ms)]
-  end
-
-  defp format_date({yy, mm, dd}) do
-    [Integer.to_string(yy), ?-, pad2(mm), ?-, pad2(dd)]
-  end
-
-  defp pad3(int) when int < 10, do: [?0, ?0, Integer.to_string(int)]
-  defp pad3(int) when int < 100, do: [?0, Integer.to_string(int)]
-  defp pad3(int), do: Integer.to_string(int)
-
-  defp pad2(int) when int < 10, do: [?0, Integer.to_string(int)]
-  defp pad2(int), do: Integer.to_string(int)
 end
