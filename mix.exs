@@ -38,7 +38,7 @@ defmodule LoggerFileBackendWithFormattersStackdriver.MixProject do
     [
       {:logger_file_backend_with_formatters, "~> 0.0.1"},
       {:jason, "~> 1.1"},
-      {:timex, "~> 3.5.0"},
+      {:timex, "~> 3.5"},
       {:ex_doc, "~> 0.19", only: :dev}
     ]
   end
